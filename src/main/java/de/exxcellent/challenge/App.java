@@ -1,5 +1,10 @@
 package de.exxcellent.challenge;
 
+import de.exxcellent.challenge.defaults.DefaultValues;
+import de.exxcellent.challenge.dataObjects.DataObject;
+import de.exxcellent.challenge.dataObjects.DataObjectFactory;
+import de.exxcellent.challenge.fileReader.impl.CSVFileReader;
+
 /**
  * The entry class for your solution. This class is only aimed as starting point and not intended as baseline for your software
  * design. Read: create your own classes and packages as appropriate.
@@ -15,6 +20,15 @@ public final class App {
     public static void main(String... args) {
 
         // Your preparation code …
+        String filename = DefaultValues.filePathWeather;
+
+        DataObjectFactory dataObjectFactory = new DataObjectFactory(DataObjectFactory.DataObjectType.WEATHER_DATA);
+
+        CSVFileReader fileReader = new CSVFileReader(filename, dataObjectFactory);
+
+        for(DataObject entry: fileReader.getEntries()){
+            // todo
+        }
 
         String dayWithSmallestTempSpread = "Someday";     // Your day analysis function call …
         System.out.printf("Day with smallest temperature spread : %s%n", dayWithSmallestTempSpread);
