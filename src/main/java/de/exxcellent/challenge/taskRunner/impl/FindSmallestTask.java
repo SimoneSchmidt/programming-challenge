@@ -31,15 +31,20 @@ public class FindSmallestTask implements TaskRunner {
      */
     @Override
     public DataObject findResult() {
-        DataObjectValueDifference smallestDifferenceObject = (DataObjectValueDifference) objectList.get(0);
+        if(objectList.size() > 0) {
+            DataObjectValueDifference smallestDifferenceObject = (DataObjectValueDifference) objectList.get(0);
 
-        for(int i = 1; i < objectList.size(); i++){
-            DataObjectValueDifference currentObject = (DataObjectValueDifference) objectList.get(i);
-            if(currentObject.getDifference() < smallestDifferenceObject.getDifference()){
-                smallestDifferenceObject = currentObject;
+            for(int i = 1; i < objectList.size(); i++){
+                DataObjectValueDifference currentObject = (DataObjectValueDifference) objectList.get(i);
+                if(currentObject.getDifference() < smallestDifferenceObject.getDifference()){
+                    smallestDifferenceObject = currentObject;
+                }
             }
-        }
 
-        return smallestDifferenceObject;
+            return smallestDifferenceObject;
+        } else {
+            System.out.println("List empty, smallest difference could not be found!");
+            return null;
+        }
     }
 }

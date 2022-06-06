@@ -52,18 +52,18 @@ public class CSVFileReaderTest {
             CSVWriter writer = new CSVWriter(new FileWriter(testFilePath.toString()));
             writer.writeAll(dataList);
             writer.close();
+
+            CSVFileReader reader = new CSVFileReader(testFileName, dataObjectFactory);
+
+            List<DataObject> entries = reader.getEntries();
+
+            testDataListEquality(line1, line2, line3, line4, entries);
+
+            File testFile = new File(testFileName);
+            testFile.delete();
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        CSVFileReader reader = new CSVFileReader(testFileName, dataObjectFactory);
-
-        List<DataObject> entries = reader.getEntries();
-
-        testDataListEquality(line1, line2, line3, line4, entries);
-
-        File testFile = new File(testFileName);
-        testFile.delete();
     }
 
     /**
@@ -87,18 +87,18 @@ public class CSVFileReaderTest {
             CSVWriter writer = new CSVWriter(new FileWriter(testFilePath.toString()));
             writer.writeAll(dataList);
             writer.close();
+
+            CSVFileReader reader = new CSVFileReader(testFileName, dataObjectFactory, false);
+
+            List<DataObject> entries = reader.getEntries();
+
+            testDataListEquality(line1, line2, line3, line4, entries);
+
+            File testFile = new File(testFileName);
+            testFile.delete();
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        CSVFileReader reader = new CSVFileReader(testFileName, dataObjectFactory, false);
-
-        List<DataObject> entries = reader.getEntries();
-
-        testDataListEquality(line1, line2, line3, line4, entries);
-
-        File testFile = new File(testFileName);
-        testFile.delete();
     }
 
     /**
@@ -132,18 +132,18 @@ public class CSVFileReaderTest {
                     .build();
             writer.writeAll(dataList);
             writer.close();
+
+            CSVFileReader reader = new CSVFileReader(testFileName, dataObjectFactory, delimiter);
+
+            List<DataObject> entries = reader.getEntries();
+
+            testDataListEquality(line1, line2, line3, line4, entries);
+
+            File testFile = new File(testFileName);
+            testFile.delete();
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        CSVFileReader reader = new CSVFileReader(testFileName, dataObjectFactory, delimiter);
-
-        List<DataObject> entries = reader.getEntries();
-
-        testDataListEquality(line1, line2, line3, line4, entries);
-
-        File testFile = new File(testFileName);
-        testFile.delete();
     }
 
     /**
@@ -171,18 +171,18 @@ public class CSVFileReaderTest {
                     .build();
             writer.writeAll(dataList);
             writer.close();
+
+            CSVFileReader reader = new CSVFileReader(testFileName, dataObjectFactory, delimiter, false);
+
+            List<DataObject> entries = reader.getEntries();
+
+            testDataListEquality(line1, line2, line3, line4, entries);
+
+            File testFile = new File(testFileName);
+            testFile.delete();
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        CSVFileReader reader = new CSVFileReader(testFileName, dataObjectFactory, delimiter, false);
-
-        List<DataObject> entries = reader.getEntries();
-
-        testDataListEquality(line1, line2, line3, line4, entries);
-
-        File testFile = new File(testFileName);
-        testFile.delete();
     }
 
     /**

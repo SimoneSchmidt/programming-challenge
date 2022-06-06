@@ -6,6 +6,7 @@ package de.exxcellent.challenge.defaults;
 public class DefaultValues {
     public static final String filePathWeather = "src/main/resources/de/exxcellent/challenge/weather.csv";
     public static final String filePathFootball = "src/main/resources/de/exxcellent/challenge/football.csv";
+    public static final String filePathPrefix = "src/main/resources/de/exxcellent/challenge/";
 
     public static final char csvDelimiter = ',';
     public static final boolean csvHasHeader = true;

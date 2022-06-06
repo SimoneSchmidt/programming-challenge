@@ -24,8 +24,36 @@ class AppTest {
     }
 
     @Test
+    void runEmpty() {
+        App.main();
+    }
+
+    @Test
     void runFootball() {
         App.main("--football", "football.csv");
     }
 
+    @Test
+    void runWeather() {
+        App.main("--weather", "weather.csv");
+    }
+
+    @Test
+    void runBoth() {
+        App.main("--football", "football.csv", "--weather", "weather.csv");
+        App.main("--weather", "weather.csv", "--football", "football.csv");
+    }
+
+    @Test
+    void runNonsense() {
+        App.main("-ball", "football.csv");
+        App.main("--weher", "weather.csv");
+        App.main("--ther", "weather.csv", "--fooll", "football.csv");
+    }
+
+
+    @Test
+    void runNoCSV() {
+        App.main("--football", "football.pdf", "--weather", "weather.mp3");
+    }
 }
