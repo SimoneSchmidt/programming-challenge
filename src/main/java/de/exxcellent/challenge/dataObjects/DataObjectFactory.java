@@ -12,17 +12,13 @@ import java.util.Map;
  */
 public class DataObjectFactory {
 
-    private DataObjectType dataObjectType;
-
-    public enum DataObjectType {
-        WEATHER_DATA, FOOTBALL_DATA, STANDARD
-    };
+    private DefaultValues.DataObjectType dataObjectType;
 
     /**
      * constructor
      */
     public DataObjectFactory() {
-        this.dataObjectType = DataObjectType.STANDARD;
+        this.dataObjectType = DefaultValues.DataObjectType.STANDARD;
     }
 
     /**
@@ -30,7 +26,7 @@ public class DataObjectFactory {
      *
      * @param dataObjectType the dataObjectType, which determines the DataObject implementation when creating a DataObject
      */
-    public DataObjectFactory(DataObjectType dataObjectType) {
+    public DataObjectFactory(DefaultValues.DataObjectType dataObjectType) {
         this.dataObjectType = dataObjectType;
     }
 
@@ -40,13 +36,13 @@ public class DataObjectFactory {
      *
      * @param dataObjectType the dataObjectType for the factory
      */
-    public void setDataObjectType(DataObjectType dataObjectType) {
+    public void setDataObjectType(DefaultValues.DataObjectType dataObjectType) {
         this.dataObjectType = dataObjectType;
     }
 
     /**
      * creates a DataObjectValueDifference with values from dataEntry
-     * the
+     * the dataObjectType defines, which implementation of DataObjectValueDifference should be used
      *
      * @param dataEntry contains values for creating the DataObject
      */
@@ -58,7 +54,7 @@ public class DataObjectFactory {
         String compareValueOneColumn = DefaultValues.compareValueOneColumnNameStandard;
         String compareValueTwoColumn = DefaultValues.compareValueTwoColumnNameStandard;
 
-        if(dataObjectType == DataObjectType.WEATHER_DATA) {
+        if(dataObjectType == DefaultValues.DataObjectType.WEATHER_DATA) {
             // set column names for weather data
             labelColumn = DefaultValues.labelColumnNameWeather;
             compareValueOneColumn = DefaultValues.compareValueOneColumnNameWeather;
@@ -69,7 +65,7 @@ public class DataObjectFactory {
                     Integer.parseInt(dataEntry.get(compareValueOneColumn)),
                     Integer.parseInt(dataEntry.get(compareValueTwoColumn)));
 
-        } else if(dataObjectType == DataObjectType.FOOTBALL_DATA) {
+        } else if(dataObjectType == DefaultValues.DataObjectType.FOOTBALL_DATA) {
             // set column names for football data
             labelColumn = DefaultValues.labelColumnNameFootball;
             compareValueOneColumn = DefaultValues.compareValueOneColumnNameFootball;
@@ -80,7 +76,7 @@ public class DataObjectFactory {
                     Integer.parseInt(dataEntry.get(compareValueOneColumn)),
                     Integer.parseInt(dataEntry.get(compareValueTwoColumn)));
 
-        } else if(dataObjectType == DataObjectType.STANDARD) {
+        } else if(dataObjectType == DefaultValues.DataObjectType.STANDARD) {
             // create standard data object with values from dataEntry
             dataObject = new DataObjectStandard(dataEntry.get(labelColumn),
                     Integer.parseInt(dataEntry.get(compareValueOneColumn)),

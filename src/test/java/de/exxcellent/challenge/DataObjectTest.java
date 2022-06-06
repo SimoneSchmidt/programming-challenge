@@ -24,7 +24,7 @@ public class DataObjectTest {
      */
     @Test
     void testDataObjectWeatherCSV() {
-        DataObjectFactory dataObjectFactory = new DataObjectFactory(DataObjectFactory.DataObjectType.WEATHER_DATA);
+        DataObjectFactory dataObjectFactory = new DataObjectFactory(DefaultValues.DataObjectType.WEATHER_DATA);
         CSVFileReader fileReader = new CSVFileReader(filenameWeather, dataObjectFactory);
 
         List<DataObject> entry = fileReader.getEntries();
@@ -44,7 +44,7 @@ public class DataObjectTest {
      */
     @Test
     void testDataObjectWeatherSingleValues() {
-        DataObjectFactory dataObjectFactory = new DataObjectFactory(DataObjectFactory.DataObjectType.WEATHER_DATA);
+        DataObjectFactory dataObjectFactory = new DataObjectFactory(DefaultValues.DataObjectType.WEATHER_DATA);
         Map<String, String> csvEntry1 = new HashMap<>();
         Map<String, String> csvEntry2 = new HashMap<>();
         Map<String, String> csvEntry3 = new HashMap<>();
@@ -119,7 +119,7 @@ public class DataObjectTest {
      */
     @Test
     void testDataObjectFootballCSV() {
-        DataObjectFactory dataObjectFactory = new DataObjectFactory(DataObjectFactory.DataObjectType.FOOTBALL_DATA);
+        DataObjectFactory dataObjectFactory = new DataObjectFactory(DefaultValues.DataObjectType.FOOTBALL_DATA);
         CSVFileReader fileReader = new CSVFileReader(filenameFootball, dataObjectFactory);
 
         List<DataObject> entry = fileReader.getEntries();
@@ -139,7 +139,7 @@ public class DataObjectTest {
      */
     @Test
     void testDataObjectFootballSingleValues() {
-        DataObjectFactory dataObjectFactory = new DataObjectFactory(DataObjectFactory.DataObjectType.FOOTBALL_DATA);
+        DataObjectFactory dataObjectFactory = new DataObjectFactory(DefaultValues.DataObjectType.FOOTBALL_DATA);
         Map<String, String> csvEntry1 = new HashMap<>();
         Map<String, String> csvEntry2 = new HashMap<>();
         Map<String, String> csvEntry3 = new HashMap<>();

@@ -4,6 +4,9 @@ import de.exxcellent.challenge.defaults.DefaultValues;
 import de.exxcellent.challenge.dataObjects.DataObject;
 import de.exxcellent.challenge.dataObjects.DataObjectFactory;
 import de.exxcellent.challenge.fileReader.impl.CSVFileReader;
+import de.exxcellent.challenge.taskRunner.TaskRunner;
+import de.exxcellent.challenge.taskRunner.TaskRunnerFactory;
+import de.exxcellent.challenge.taskRunner.impl.FindSmallestTaskFactory;
 
 /**
  * The entry class for your solution. This class is only aimed as starting point and not intended as baseline for your software
@@ -20,20 +23,16 @@ public final class App {
     public static void main(String... args) {
 
         // Your preparation code …
-        String filename = DefaultValues.filePathWeather;
+        // prepare task runners
+        FindSmallestTaskFactory taskFactory = new FindSmallestTaskFactory(DefaultValues.DataObjectType.WEATHER_DATA);
+        TaskRunner weatherTask = taskFactory.createTask();
+        taskFactory.setDataObjectType(DefaultValues.DataObjectType.FOOTBALL_DATA);
+        TaskRunner footballTask = taskFactory.createTask();
 
-        DataObjectFactory dataObjectFactory = new DataObjectFactory(DataObjectFactory.DataObjectType.WEATHER_DATA);
-
-        CSVFileReader fileReader = new CSVFileReader(filename, dataObjectFactory);
-
-        for(DataObject entry: fileReader.getEntries()){
-            // todo
-        }
-
-        String dayWithSmallestTempSpread = "Someday";     // Your day analysis function call …
+        String dayWithSmallestTempSpread = weatherTask.findResult().getLabel();     // Your day analysis function call …
         System.out.printf("Day with smallest temperature spread : %s%n", dayWithSmallestTempSpread);
 
-        String teamWithSmallestGoalSpread = "A good team"; // Your goal analysis function call …
+        String teamWithSmallestGoalSpread = footballTask.findResult().getLabel(); // Your goal analysis function call …
         System.out.printf("Team with smallest goal spread       : %s%n", teamWithSmallestGoalSpread);
     }
 }

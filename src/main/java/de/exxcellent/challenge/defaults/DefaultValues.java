@@ -19,4 +19,8 @@ public class DefaultValues {
     public static final String labelColumnNameFootball = "Team";
     public static final String compareValueOneColumnNameFootball = "Goals";
     public static final String compareValueTwoColumnNameFootball = "Goals Allowed";
+
+    public enum DataObjectType {
+        WEATHER_DATA, FOOTBALL_DATA, STANDARD
+    }
 }
