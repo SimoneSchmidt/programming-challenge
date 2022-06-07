@@ -4,6 +4,7 @@ import de.exxcellent.challenge.dataObjects.impl.DataObjectFootball;
 import de.exxcellent.challenge.dataObjects.impl.DataObjectStandard;
 import de.exxcellent.challenge.dataObjects.impl.DataObjectWeather;
 import de.exxcellent.challenge.defaults.DefaultValues;
+import de.exxcellent.challenge.exceptions.IncompatibleDataException;
 
 import java.util.Map;
 
@@ -41,12 +42,38 @@ public class DataObjectFactory {
     }
 
     /**
+     * checks, whether the data contains the expected columns
+     *
+     * @param dataEntry the data to be checked
+     * @param labelColumnName name of label column
+     * @param columnOneName name of first value column
+     * @param columnTwoName name of second value column
+     * @return true, if all columns exist, false otherwise
+     */
+    private boolean checkIsDataCompatible(Map<String, String> dataEntry, String labelColumnName,
+                                           String columnOneName, String columnTwoName){
+        return dataEntry.containsKey(labelColumnName) && dataEntry.containsKey(columnOneName)
+                && dataEntry.containsKey(columnTwoName);
+    }
+
+    /**
+     * throws a IncompatibleDataException exception
+     *
+     * @throws IncompatibleDataException
+     */
+    private void throwIncompatibilityException() throws IncompatibleDataException {
+        throw new IncompatibleDataException("Could not create DataObjectValueDifference object, " +
+                "data does not contain expected columns!");
+    }
+
+    /**
      * creates a DataObjectValueDifference with values from dataEntry
      * the dataObjectType defines, which implementation of DataObjectValueDifference should be used
      *
      * @param dataEntry contains values for creating the DataObject
+     * @throws IncompatibleDataException
      */
-    public DataObjectValueDifference createValueDifferenceObject(Map<String, String> dataEntry) {
+    public DataObjectValueDifference createValueDifferenceObject(Map<String, String> dataEntry) throws IncompatibleDataException {
         DataObjectValueDifference dataObject = null;
 
         // set standard column names for data
@@ -60,10 +87,14 @@ public class DataObjectFactory {
             compareValueOneColumn = DefaultValues.compareValueOneColumnNameWeather;
             compareValueTwoColumn = DefaultValues.compareValueTwoColumnNameWeather;
 
-            // create weather data object with values from dataEntry
-            dataObject = new DataObjectWeather(dataEntry.get(labelColumn),
-                    Integer.parseInt(dataEntry.get(compareValueOneColumn)),
-                    Integer.parseInt(dataEntry.get(compareValueTwoColumn)));
+            if(checkIsDataCompatible(dataEntry, labelColumn, compareValueOneColumn, compareValueTwoColumn)){
+                // create weather data object with values from dataEntry
+                dataObject = new DataObjectWeather(dataEntry.get(labelColumn),
+                        Integer.parseInt(dataEntry.get(compareValueOneColumn)),
+                        Integer.parseInt(dataEntry.get(compareValueTwoColumn)));
+            } else {
+                throwIncompatibilityException();
+            }
 
         } else if(dataObjectType == DefaultValues.DataObjectType.FOOTBALL_DATA) {
             // set column names for football data
@@ -71,16 +102,25 @@ public class DataObjectFactory {
             compareValueOneColumn = DefaultValues.compareValueOneColumnNameFootball;
             compareValueTwoColumn = DefaultValues.compareValueTwoColumnNameFootball;
 
-            // create football data object with values from dataEntry
-            dataObject = new DataObjectFootball(dataEntry.get(labelColumn),
-                    Integer.parseInt(dataEntry.get(compareValueOneColumn)),
-                    Integer.parseInt(dataEntry.get(compareValueTwoColumn)));
+            if(checkIsDataCompatible(dataEntry, labelColumn, compareValueOneColumn, compareValueTwoColumn)) {
+                // create football data object with values from dataEntry
+                dataObject = new DataObjectFootball(dataEntry.get(labelColumn),
+                        Integer.parseInt(dataEntry.get(compareValueOneColumn)),
+                        Integer.parseInt(dataEntry.get(compareValueTwoColumn)));
+            } else {
+                throwIncompatibilityException();
+            }
 
         } else if(dataObjectType == DefaultValues.DataObjectType.STANDARD) {
+
+            if(checkIsDataCompatible(dataEntry, labelColumn, compareValueOneColumn, compareValueTwoColumn)) {
             // create standard data object with values from dataEntry
             dataObject = new DataObjectStandard(dataEntry.get(labelColumn),
                     Integer.parseInt(dataEntry.get(compareValueOneColumn)),
                     Integer.parseInt(dataEntry.get(compareValueTwoColumn)));
+            } else {
+                throwIncompatibilityException();
+            }
         }
 
         return dataObject;

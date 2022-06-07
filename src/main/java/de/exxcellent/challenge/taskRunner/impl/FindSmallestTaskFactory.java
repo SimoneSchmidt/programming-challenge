@@ -2,6 +2,8 @@ package de.exxcellent.challenge.taskRunner.impl;
 
 import de.exxcellent.challenge.dataObjects.DataObjectFactory;
 import de.exxcellent.challenge.defaults.DefaultValues;
+import de.exxcellent.challenge.exceptions.IncompatibleDataException;
+import de.exxcellent.challenge.exceptions.IncorrectFileTypeException;
 import de.exxcellent.challenge.fileReader.DataFileReader;
 import de.exxcellent.challenge.fileReader.impl.CSVFileReader;
 import de.exxcellent.challenge.taskRunner.TaskRunner;
@@ -12,15 +14,17 @@ import de.exxcellent.challenge.taskRunner.TaskRunnerFactory;
  */
 public class FindSmallestTaskFactory implements TaskRunnerFactory {
 
-    private DefaultValues.DataObjectType dataObjectType;
     DataFileReader fileReader;
 
     /**
      * constructor
      *
      * @param dataObjectType the data object type, for which the FindSmallestTask should be created
+     * @throws IncorrectFileTypeException
+     * @throws IncompatibleDataException
      */
-    public FindSmallestTaskFactory(DefaultValues.DataObjectType dataObjectType){
+    public FindSmallestTaskFactory(DefaultValues.DataObjectType dataObjectType)
+            throws IncompatibleDataException, IncorrectFileTypeException {
         setDataObjectType(dataObjectType);
     }
 
@@ -29,8 +33,11 @@ public class FindSmallestTaskFactory implements TaskRunnerFactory {
      *
      * @param dataObjectType the data object type, for which the FindSmallestTask should be created
      * @param dataFilePath the path to the data file, which should be used
+     * @throws IncorrectFileTypeException
+     * @throws IncompatibleDataException
      */
-    public FindSmallestTaskFactory(DefaultValues.DataObjectType dataObjectType, String dataFilePath){
+    public FindSmallestTaskFactory(DefaultValues.DataObjectType dataObjectType, String dataFilePath)
+            throws IncompatibleDataException, IncorrectFileTypeException {
         setDataObjectType(dataObjectType, dataFilePath);
     }
 
@@ -47,10 +54,11 @@ public class FindSmallestTaskFactory implements TaskRunnerFactory {
      * changes the data object type, for which the FindSmallestTask should be created
      *
      * @param dataObjectType the data object type
+     * @throws IncorrectFileTypeException
+     * @throws IncompatibleDataException
      */
-    public void setDataObjectType(DefaultValues.DataObjectType dataObjectType) {
-        this.dataObjectType = dataObjectType;
-
+    public void setDataObjectType(DefaultValues.DataObjectType dataObjectType)
+            throws IncompatibleDataException, IncorrectFileTypeException {
         String filename = "";
 
         if(dataObjectType == DefaultValues.DataObjectType.WEATHER_DATA) {
@@ -68,15 +76,11 @@ public class FindSmallestTaskFactory implements TaskRunnerFactory {
      *
      * @param dataObjectType the data object type
      * @param dataFilePath the path to the data file, which should be used
+     * @throws IncorrectFileTypeException
+     * @throws IncompatibleDataException
      */
-    public void setDataObjectType(DefaultValues.DataObjectType dataObjectType, String dataFilePath) {
-        this.dataObjectType = dataObjectType;
-
-
-        if(dataObjectType == DefaultValues.DataObjectType.WEATHER_DATA) {
-        } else if(dataObjectType == DefaultValues.DataObjectType.FOOTBALL_DATA) {
-        }
-
+    public void setDataObjectType(DefaultValues.DataObjectType dataObjectType, String dataFilePath)
+            throws IncompatibleDataException, IncorrectFileTypeException {
         DataObjectFactory dataObjectFactory = new DataObjectFactory(dataObjectType);
         fileReader = new CSVFileReader(dataFilePath, dataObjectFactory);
     }

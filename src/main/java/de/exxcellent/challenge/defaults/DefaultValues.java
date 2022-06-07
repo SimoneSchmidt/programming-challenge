@@ -21,6 +21,11 @@ public class DefaultValues {
     public static final String compareValueOneColumnNameFootball = "Goals";
     public static final String compareValueTwoColumnNameFootball = "Goals Allowed";
 
+    public static final String weatherCommand = "--weather";
+    public static final String footballCommand = "--football";
+    public static final String weatherMessage = "Day with smallest temperature spread : %s%n";
+    public static final String footballMessage = "Team with smallest goal spread       : %s%n";
+
     public enum DataObjectType {
         WEATHER_DATA, FOOTBALL_DATA, STANDARD
     }

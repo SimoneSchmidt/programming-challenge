@@ -15,8 +15,8 @@ public class DataObjectWeather implements DataObjectValueDifference {
      * constructor
      *
      * @param day the day
-     * @param maxTemp the number of scored goals
-     * @param minTemp the number of received goals scored by opponents
+     * @param maxTemp the maximum temperature
+     * @param minTemp the minimum temperature
      */
     public DataObjectWeather(String day, int maxTemp, int minTemp){
         this.day = day;

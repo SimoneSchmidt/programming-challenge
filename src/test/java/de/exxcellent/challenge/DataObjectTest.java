@@ -4,12 +4,15 @@ import de.exxcellent.challenge.dataObjects.DataObject;
 import de.exxcellent.challenge.dataObjects.DataObjectFactory;
 import de.exxcellent.challenge.dataObjects.DataObjectValueDifference;
 import de.exxcellent.challenge.defaults.DefaultValues;
+import de.exxcellent.challenge.exceptions.IncompatibleDataException;
+import de.exxcellent.challenge.exceptions.IncorrectFileTypeException;
 import de.exxcellent.challenge.fileReader.impl.CSVFileReader;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * Tests for the DataObject classes
@@ -25,18 +28,23 @@ public class DataObjectTest {
     @Test
     void testDataObjectWeatherCSV() {
         DataObjectFactory dataObjectFactory = new DataObjectFactory(DefaultValues.DataObjectType.WEATHER_DATA);
-        CSVFileReader fileReader = new CSVFileReader(filenameWeather, dataObjectFactory);
+        CSVFileReader fileReader = null;
+        try {
+            fileReader = new CSVFileReader(filenameWeather, dataObjectFactory);
 
-        List<DataObject> entry = fileReader.getEntries();
+            List<DataObject> entry = fileReader.getEntries();
 
-        testDataObjectEqualityGivenDifference("1", 29,
-                (DataObjectValueDifference) entry.get(0), "Check weather csv values 1");
-        testDataObjectEqualityGivenDifference("2", 16,
-                (DataObjectValueDifference) entry.get(1), "Check weather csv values 2");
-        testDataObjectEqualityGivenDifference("3", 22,
-                (DataObjectValueDifference) entry.get(2), "Check weather csv values 3");
-        testDataObjectEqualityGivenDifference("30", 45,
-                (DataObjectValueDifference) entry.get(entry.size() - 1), "Check weather csv values last");
+            testDataObjectEqualityGivenDifference("1", 29,
+                    (DataObjectValueDifference) entry.get(0), "Check weather csv values 1");
+            testDataObjectEqualityGivenDifference("2", 16,
+                    (DataObjectValueDifference) entry.get(1), "Check weather csv values 2");
+            testDataObjectEqualityGivenDifference("3", 22,
+                    (DataObjectValueDifference) entry.get(2), "Check weather csv values 3");
+            testDataObjectEqualityGivenDifference("30", 45,
+                    (DataObjectValueDifference) entry.get(entry.size() - 1), "Check weather csv values last");
+        } catch (IncompatibleDataException | IncorrectFileTypeException e) {
+            fail("Unexpected Exception.");
+        }
     }
 
     /**
@@ -102,16 +110,20 @@ public class DataObjectTest {
             }
         }
 
-        DataObjectValueDifference object1 = dataObjectFactory.createValueDifferenceObject(csvEntry1);
-        DataObjectValueDifference object2 = dataObjectFactory.createValueDifferenceObject(csvEntry2);
-        DataObjectValueDifference object3 = dataObjectFactory.createValueDifferenceObject(csvEntry3);
+        try {
+            DataObjectValueDifference object1 = dataObjectFactory.createValueDifferenceObject(csvEntry1);
+            DataObjectValueDifference object2 = dataObjectFactory.createValueDifferenceObject(csvEntry2);
+            DataObjectValueDifference object3 = dataObjectFactory.createValueDifferenceObject(csvEntry3);
 
-        testDataObjectEqualityPerformCalculation(day1, val1_1, val1_2, false,
-                object1, "Random weather object1");
-        testDataObjectEqualityPerformCalculation(day2, val2_1, val2_2, false,
-                object2, "Random weather object2");
-        testDataObjectEqualityPerformCalculation(day3, val3_1, val3_2, false,
-                object3, "Random weather object3");
+            testDataObjectEqualityPerformCalculation(day1, val1_1, val1_2, false,
+                    object1, "Random weather object1");
+            testDataObjectEqualityPerformCalculation(day2, val2_1, val2_2, false,
+                    object2, "Random weather object2");
+            testDataObjectEqualityPerformCalculation(day3, val3_1, val3_2, false,
+                    object3, "Random weather object3");
+        } catch (IncompatibleDataException e) {
+            fail("Unexpected Exception");
+        }
     }
 
     /**
@@ -120,18 +132,22 @@ public class DataObjectTest {
     @Test
     void testDataObjectFootballCSV() {
         DataObjectFactory dataObjectFactory = new DataObjectFactory(DefaultValues.DataObjectType.FOOTBALL_DATA);
-        CSVFileReader fileReader = new CSVFileReader(filenameFootball, dataObjectFactory);
+        try {
+            CSVFileReader fileReader = new CSVFileReader(filenameFootball, dataObjectFactory);
 
-        List<DataObject> entry = fileReader.getEntries();
+            List<DataObject> entry = fileReader.getEntries();
 
-        testDataObjectEqualityGivenDifference("Arsenal", 43,
-                (DataObjectValueDifference) entry.get(0), "Check football csv values 1");
-        testDataObjectEqualityGivenDifference("Liverpool", 37,
-                (DataObjectValueDifference) entry.get(1), "Check football csv values 2");
-        testDataObjectEqualityGivenDifference("Manchester United", 42,
-                (DataObjectValueDifference) entry.get(2), "Check football csv values 3");
-        testDataObjectEqualityGivenDifference("Leicester", 34,
-                (DataObjectValueDifference) entry.get(entry.size() - 1), "Check football csv values last");
+            testDataObjectEqualityGivenDifference("Arsenal", 43,
+                    (DataObjectValueDifference) entry.get(0), "Check football csv values 1");
+            testDataObjectEqualityGivenDifference("Liverpool", 37,
+                    (DataObjectValueDifference) entry.get(1), "Check football csv values 2");
+            testDataObjectEqualityGivenDifference("Manchester United", 42,
+                    (DataObjectValueDifference) entry.get(2), "Check football csv values 3");
+            testDataObjectEqualityGivenDifference("Leicester", 34,
+                    (DataObjectValueDifference) entry.get(entry.size() - 1), "Check football csv values last");
+        } catch (IncompatibleDataException | IncorrectFileTypeException e) {
+            fail("Unexpected Exception.");
+        }
     }
 
     /**
@@ -197,16 +213,21 @@ public class DataObjectTest {
             }
         }
 
-        DataObjectValueDifference object1 = dataObjectFactory.createValueDifferenceObject(csvEntry1);
-        DataObjectValueDifference object2 = dataObjectFactory.createValueDifferenceObject(csvEntry2);
-        DataObjectValueDifference object3 = dataObjectFactory.createValueDifferenceObject(csvEntry3);
+        DataObjectValueDifference object1 = null;
+        try {
+            object1 = dataObjectFactory.createValueDifferenceObject(csvEntry1);
+            DataObjectValueDifference object2 = dataObjectFactory.createValueDifferenceObject(csvEntry2);
+            DataObjectValueDifference object3 = dataObjectFactory.createValueDifferenceObject(csvEntry3);
 
-        testDataObjectEqualityPerformCalculation(team1, val1_1, val1_2, true,
-                object1, "Random football object1");
-        testDataObjectEqualityPerformCalculation(team2, val2_1, val2_2, true,
-                object2, "Random football object2");
-        testDataObjectEqualityPerformCalculation(team3, val3_1, val3_2, true,
-                object3, "Random football object3");
+            testDataObjectEqualityPerformCalculation(team1, val1_1, val1_2, true,
+                    object1, "Random football object1");
+            testDataObjectEqualityPerformCalculation(team2, val2_1, val2_2, true,
+                    object2, "Random football object2");
+            testDataObjectEqualityPerformCalculation(team3, val3_1, val3_2, true,
+                    object3, "Random football object3");
+        } catch (IncompatibleDataException e) {
+            fail("Unexpected Exception");
+        }
     }
 
     /**

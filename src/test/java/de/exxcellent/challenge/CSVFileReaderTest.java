@@ -6,10 +6,13 @@ import com.opencsv.CSVWriterBuilder;
 import de.exxcellent.challenge.dataObjects.DataObject;
 import de.exxcellent.challenge.dataObjects.DataObjectFactory;
 import de.exxcellent.challenge.dataObjects.impl.DataObjectStandard;
+import de.exxcellent.challenge.exceptions.IncompatibleDataException;
+import de.exxcellent.challenge.exceptions.IncorrectFileTypeException;
 import de.exxcellent.challenge.fileReader.impl.CSVFileReader;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -63,6 +66,8 @@ public class CSVFileReaderTest {
             testFile.delete();
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (IncompatibleDataException | IncorrectFileTypeException e) {
+            fail("Unexpected Exception");
         }
     }
 
@@ -98,6 +103,8 @@ public class CSVFileReaderTest {
             testFile.delete();
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (IncompatibleDataException | IncorrectFileTypeException e) {
+            fail("Unexpected Exception");
         }
     }
 
@@ -143,6 +150,8 @@ public class CSVFileReaderTest {
             testFile.delete();
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (IncompatibleDataException | IncorrectFileTypeException e) {
+            fail("Unexpected Exception");
         }
     }
 
@@ -182,6 +191,8 @@ public class CSVFileReaderTest {
             testFile.delete();
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (IncompatibleDataException | IncorrectFileTypeException e) {
+            fail("Unexpected Exception");
         }
     }
 

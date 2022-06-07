@@ -8,6 +8,8 @@ import com.opencsv.exceptions.CsvValidationException;
 import de.exxcellent.challenge.dataObjects.DataObject;
 import de.exxcellent.challenge.dataObjects.DataObjectFactory;
 import de.exxcellent.challenge.defaults.DefaultValues;
+import de.exxcellent.challenge.exceptions.IncompatibleDataException;
+import de.exxcellent.challenge.exceptions.IncorrectFileTypeException;
 import de.exxcellent.challenge.fileReader.DataFileReader;
 
 import java.io.BufferedReader;
@@ -30,8 +32,11 @@ public class CSVFileReader implements DataFileReader {
      *
      * @param filename the csv file, which should be read
      * @param dataObjectFactory the factory for transforming read data values into usable objects
+     * @throws IncorrectFileTypeException
+     * @throws IncompatibleDataException
      */
-    public CSVFileReader(String filename, DataObjectFactory dataObjectFactory) {
+    public CSVFileReader(String filename, DataObjectFactory dataObjectFactory)
+            throws IncompatibleDataException, IncorrectFileTypeException {
         this.filename = filename;
 
         readCSV(dataObjectFactory);
@@ -43,8 +48,11 @@ public class CSVFileReader implements DataFileReader {
      * @param filename the csv file, which should be read
      * @param dataObjectFactory the factory for transforming read data values into usable objects
      * @param delimiter the delimiter on which to split the csv lines
+     * @throws IncorrectFileTypeException
+     * @throws IncompatibleDataException
      */
-    public CSVFileReader(String filename, DataObjectFactory dataObjectFactory, char delimiter) {
+    public CSVFileReader(String filename, DataObjectFactory dataObjectFactory, char delimiter)
+            throws IncompatibleDataException, IncorrectFileTypeException {
         this.filename = filename;
         this.delimiter = delimiter;
 
@@ -57,8 +65,11 @@ public class CSVFileReader implements DataFileReader {
      * @param filename the csv file, which should be read
      * @param dataObjectFactory the factory for transforming read data values into usable objects
      * @param hasHeader indicates, whether the first line of csv file should be read as header or not
+     * @throws IncorrectFileTypeException
+     * @throws IncompatibleDataException
      */
-    public CSVFileReader(String filename, DataObjectFactory dataObjectFactory, boolean hasHeader) {
+    public CSVFileReader(String filename, DataObjectFactory dataObjectFactory, boolean hasHeader)
+            throws IncompatibleDataException, IncorrectFileTypeException {
         this.filename = filename;
         this.hasHeader = hasHeader;
 
@@ -72,8 +83,11 @@ public class CSVFileReader implements DataFileReader {
      * @param dataObjectFactory the factory for transforming read data values into usable objects
      * @param delimiter the delimiter on which to split the csv lines
      * @param hasHeader indicates, whether the first line of csv file should be read as header or not
+     * @throws IncorrectFileTypeException
+     * @throws IncompatibleDataException
      */
-    public CSVFileReader(String filename, DataObjectFactory dataObjectFactory, char delimiter, boolean hasHeader) {
+    public CSVFileReader(String filename, DataObjectFactory dataObjectFactory, char delimiter, boolean hasHeader)
+            throws IncompatibleDataException, IncorrectFileTypeException {
         this.filename = filename;
         this.delimiter = delimiter;
         this.hasHeader = hasHeader;
@@ -91,11 +105,14 @@ public class CSVFileReader implements DataFileReader {
     }
 
     /**
-     * reads the csv file
+     * reads the csv file and transforms the data into a list of DataObject objects
      *
      * @param dataObjectFactory the factory for transforming read data values into usable objects
+     * @throws IncorrectFileTypeException
+     * @throws IncompatibleDataException
      */
-    private void readCSV(DataObjectFactory dataObjectFactory) {
+    private void readCSV(DataObjectFactory dataObjectFactory)
+            throws IncorrectFileTypeException, IncompatibleDataException {
         try {
             // check if file is csv file
             if(filename.split("\\.")[filename.split("\\.").length - 1].equals("csv")) {
@@ -144,10 +161,11 @@ public class CSVFileReader implements DataFileReader {
                     entries.add(dataObject);
                 } while((fileLine = csvReader.readNext()) != null);
             } else {
-                System.out.println("Not a csv file, cannot be parsed!");
+                throw new IncorrectFileTypeException("Not a csv file, cannot be parsed!");
             }
-        } catch (IOException | CsvValidationException e) {
+        } catch (IOException | CsvValidationException  e) {
             e.printStackTrace();
+            throw new IncorrectFileTypeException("Provided file could not be parsed!");
         }
     }
 }

@@ -45,15 +45,25 @@ class AppTest {
     }
 
     @Test
-    void runNonsense() {
+    void runNonsenseInput() {
         App.main("-ball", "football.csv");
         App.main("--weher", "weather.csv");
         App.main("--ther", "weather.csv", "--fooll", "football.csv");
     }
 
+    @Test
+    void runWrongFile() {
+        App.main("--weather", "football.csv");
+        App.main("--football", "weather.csv");
+    }
 
     @Test
     void runNoCSV() {
         App.main("--football", "football.pdf", "--weather", "weather.mp3");
+    }
+
+    @Test
+    void runNonexistendFile() {
+        App.main("--football", "footballNot.csv", "--weather", "weatherNot.csv");
     }
 }
